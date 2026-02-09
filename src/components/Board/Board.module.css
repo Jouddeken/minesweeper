@@ -1,11 +1,12 @@
 .board {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0px;
+  border: 2px solid #808080;
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  gap: 2px;
+  gap: 0px;
 }

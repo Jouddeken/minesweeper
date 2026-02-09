@@ -34,6 +34,9 @@ export default [
       ...reactRefresh.configs.vite.rules,
       ...prettier.rules,
       'prettier/prettier': 'error',
+      'no-redeclare': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error'],
     },
   },
 ];

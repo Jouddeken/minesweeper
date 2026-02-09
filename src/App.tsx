@@ -1,8 +1,8 @@
 import { Game } from './components/Game';
-import './App.module.css';
+import styles from './App.module.css';
 
 export const App = () => (
-  <div>
+  <div className={styles.app}>
     <Game />
   </div>
 );
