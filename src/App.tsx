@@ -1,5 +1,8 @@
+import { Game } from './components/Game';
+import './App.module.css';
+
 export const App = () => (
   <div>
-    <h1>Minesweeper</h1>
+    <Game />
   </div>
 );
