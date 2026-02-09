@@ -1,0 +1,9 @@
+{
+  "endOfLine": "auto",
+  "singleQuote": true,
+  "arrowParens": "always",
+  "proseWrap": "always",
+  "printWidth": 100,
+  "bracketSpacing": true,
+  "bracketSameLine": false
+}
