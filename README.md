@@ -8,6 +8,16 @@ adjacent to it. Using this information, you can determine cells that are safe, a
 contain mines. Cells suspected of being mines can be marked with a flag using the right mouse
 button.”
 
+## Prerequisites
+
+- Node
+- NPM
+
+## Getting started
+
+1. Run `npm install`
+2. Run `npm run dev`
+
 ## Quick requirement notes
 
 - A board with cells
@@ -29,7 +39,7 @@ simple to test as you can see in its test file.
 
 The core business logic of the minesweeper game can be found in a domain logic folder. This is where
 the type definitions of the business logic are defined as well, they are used in the components,
-hooks and utility functions again, but they live in a dedicated and centralised area.
+hooks and utility functions again, but they live in a dedicated and centralized area.
 
 The UI of this project is quite straight forward and really basic, for that reason I also did not
 opt for a whole framework to solve the styling issues here, simple CSS modules are more than enough
