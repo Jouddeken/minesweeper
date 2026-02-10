@@ -1,5 +1,12 @@
 import { BoardState } from '../domain/minesweeper';
 
+/**
+ * All directions to check for adjacent cells in the Minesweeper game. This array contains the row
+ * and column offsets for each of the 8 possible adjacent positions around a cell: top-left, top,
+ * top-right, left, right, bottom-left, bottom, and bottom-right. These offsets are used in various
+ * functions to check adjacent cells for mines, reveal adjacent cells, and calculate the number of
+ * adjacent mines for each cell on the board.
+ */
 const DIRECTIONS = [
   [-1, -1], // top-left
   [-1, 0], // top

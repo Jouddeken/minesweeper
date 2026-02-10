@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { BoardState, GameState, GameStatus } from '../domain/minesweeper';
 import {
   calculateAdjacentMines,
@@ -48,63 +48,69 @@ export const useMinesweeper = (
     return boardWithAdjacentMines;
   });
 
-  const revealCell = (rowIndex: number, columnIndex: number) => {
-    // If the game is not in the playing state or the cell is flagged, do nothing
-    if (status !== GameStatus.Playing || board[rowIndex][columnIndex].isFlagged) {
-      return;
-    }
+  const revealCell = useCallback(
+    (rowIndex: number, columnIndex: number) => {
+      // If the game is not in the playing state or the cell is flagged, do nothing
+      if (status !== GameStatus.Playing || board[rowIndex][columnIndex].isFlagged) {
+        return;
+      }
 
-    setBoard((prevBoard) => {
-      // Create a new board to avoid mutating the state directly
-      const newBoard = prevBoard.map((row) => row.map((cell) => ({ ...cell })));
-      const cell = newBoard[rowIndex][columnIndex];
+      setBoard((prevBoard) => {
+        // Create a new board to avoid mutating the state directly
+        const newBoard = prevBoard.map((row) => row.map((cell) => ({ ...cell })));
+        const cell = newBoard[rowIndex][columnIndex];
 
-      // Reveal the mine and end the game if a mine is clicked
-      if (cell.isMine) {
-        cell.isRevealed = true;
-        setStatus(GameStatus.Lost);
-      } else {
-        cell.isRevealed = true;
+        // Reveal the mine and end the game if a mine is clicked
+        if (cell.isMine) {
+          cell.isRevealed = true;
+          setStatus(GameStatus.Lost);
+        } else {
+          cell.isRevealed = true;
 
-        // Recursively reveal adjacent cells if the revealed cell has no adjacent mines
-        if (cell.adjacentMines === 0) {
-          revealAdjacentCells(newBoard, rowIndex, columnIndex);
+          // Recursively reveal adjacent cells if the revealed cell has no adjacent mines
+          if (cell.adjacentMines === 0) {
+            revealAdjacentCells(newBoard, rowIndex, columnIndex);
+          }
+
+          // Check if the player has won after revealing the cell
+          if (checkWinCondition(newBoard)) {
+            setStatus(GameStatus.Won);
+          }
         }
 
-        // Check if the player has won after revealing the cell
+        return newBoard;
+      });
+    },
+    [status, board],
+  );
+
+  const flagCell = useCallback(
+    (rowIndex: number, columnIndex: number) => {
+      // If the game is not in the playing state or the cell is already revealed, do nothing
+      if (status !== GameStatus.Playing || board[rowIndex][columnIndex].isRevealed) {
+        return;
+      }
+
+      setBoard((prevBoard) => {
+        // Create a new board to avoid mutating the state directly
+        const newBoard = prevBoard.map((row) => row.map((cell) => ({ ...cell })));
+        const cell = newBoard[rowIndex][columnIndex];
+
+        // Toggle the flagged state of the cell if it's not revealed
+        if (!cell.isRevealed) {
+          cell.isFlagged = !cell.isFlagged;
+        }
+
+        // Check if the player has won after flagging the cell
         if (checkWinCondition(newBoard)) {
           setStatus(GameStatus.Won);
         }
-      }
 
-      return newBoard;
-    });
-  };
-
-  const flagCell = (rowIndex: number, columnIndex: number) => {
-    // If the game is not in the playing state or the cell is already revealed, do nothing
-    if (status !== GameStatus.Playing || board[rowIndex][columnIndex].isRevealed) {
-      return;
-    }
-
-    setBoard((prevBoard) => {
-      // Create a new board to avoid mutating the state directly
-      const newBoard = prevBoard.map((row) => row.map((cell) => ({ ...cell })));
-      const cell = newBoard[rowIndex][columnIndex];
-
-      // Toggle the flagged state of the cell if it's not revealed
-      if (!cell.isRevealed) {
-        cell.isFlagged = !cell.isFlagged;
-      }
-
-      // Check if the player has won after flagging the cell
-      if (checkWinCondition(newBoard)) {
-        setStatus(GameStatus.Won);
-      }
-
-      return newBoard;
-    });
-  };
+        return newBoard;
+      });
+    },
+    [status, board],
+  );
 
   const reset = () => {
     const initialBoard = createBoard(rows, columns, debug);

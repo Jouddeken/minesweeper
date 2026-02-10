@@ -10,9 +10,9 @@ export type BoardProps = {
 
 export const Board = ({ board, onReveal, onFlag }: BoardProps) => {
   return (
-    <div className={styles.board}>
+    <div className={styles.board} data-testid="board">
       {board.map((row, rowIndex) => (
-        <div key={rowIndex} className={styles.row}>
+        <div key={rowIndex} className={styles.row} data-testid="row">
           {row.map((cell, columnIndex) => (
             <Cell
               cell={cell}

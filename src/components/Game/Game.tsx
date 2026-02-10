@@ -7,7 +7,7 @@ export const Game = () => {
   const { board, status, revealCell, flagCell, reset } = useMinesweeper();
 
   return (
-    <div className={styles.game}>
+    <div className={styles.game} data-testid="game">
       {checkIsPlaying(status) && <div className={styles.status}>Game in progress... 🙈</div>}
       {checkIsWon(status) && <div className={styles.status}>You won! 🎉</div>}
       {checkIsLost(status) && <div className={styles.status}>You lost! 💥</div>}

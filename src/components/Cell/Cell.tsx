@@ -10,12 +10,14 @@ export type CellProps = {
 export const Cell = ({ cell, onClick, onRightClick }: CellProps) => {
   return (
     <div
+      role="button"
       onClick={cell.isFlagged ? undefined : onClick}
       onContextMenu={(e) => {
         e.preventDefault();
         onRightClick();
       }}
-      className={`${styles.cell} ${cell.isRevealed ? `${styles.revealed} ${styles[`number-${cell.adjacentMines}`] || ''}` : ''} ${cell.isFlagged ? styles.flagged : ''}`}
+      data-testid="cell"
+      className={`${styles.cell} ${cell.isRevealed ? `${styles.revealed} ${styles[`number-${cell.adjacentMines}`] || ''}` : ''} ${cell.isFlagged ? styles.flagged : ''}`.trim()}
     >
       {cell.isFlagged
         ? '🚩'
